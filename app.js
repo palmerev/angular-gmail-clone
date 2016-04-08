@@ -27,6 +27,13 @@ app.factory('InboxFactory', function InboxFactory ($http){
       console.log('An error occurred', data);
     });
   }
+  exports.find = function (id) {
+    return $http({
+      method: 'GET',
+      url: '../json/email_' + id + '.json',
+      cache: true
+    });
+  }
   return exports;
 });
 
@@ -43,4 +50,16 @@ app.controller('InboxCtrl', ['$scope', 'InboxFactory', function ($scope, InboxFa
 
 app.controller('EmailCtrl', ['$scope', '$routeParams', 'InboxFactory', function ($scope, $routeParams, InboxFactory) {
   $scope.title = 'Message Details';
+  InboxFactory.getMessages()
+    .success(function(data) {
+      $scope.messageInfo = data.filter(function (msg) {
+        return msg.id == $routeParams.id;
+      })[0];
+    });
+  InboxFactory.find($routeParams.id)
+    .success(function(data) {
+      $scope.bodyText = data.body;
+    }).error(function(data) {
+      $scope.bodyText = "Error loading message body";
+    });
 }]);
