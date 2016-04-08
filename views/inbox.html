@@ -4,8 +4,8 @@
     ng-class="message.markedRead ? 'read' : 'unread'"
   >
   <a href="#/inbox/email/{{message.id}}" ng-click="message.markedRead = true">
-    <span class="email-title">{{message.subject}}</span>--<!--
-    --><span class="email-snippet">{{message.body.substr(0, 35) + "..."}}</span>
+  <span class="email-author">{{message.author}}</span>--<!--
+    --><span class="email-title">{{message.subject}}</span>
   </a>
   </li>
 </ul>
